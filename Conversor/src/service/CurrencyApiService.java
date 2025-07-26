@@ -9,11 +9,11 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Map;
+
 
 public class CurrencyApiService {
 
-        private final String apiBaseUrl;
+        private final String apiBaseUrl; // corrigido na main
         private final String apiKey;
         private final HttpClient httpClient;
         private final Gson gson; // Instância do Gson
@@ -27,7 +27,8 @@ public class CurrencyApiService {
 
         public double getExchangeRate(String baseCurrency, String targetCurrency) {
                 try {
-                        String url = apiBaseUrl + baseCurrency;
+                        String url = String.format("%s%s/latest/%s", apiBaseUrl, apiKey,
+                                baseCurrency);
 
                         HttpRequest request = HttpRequest.newBuilder()
                                 .uri(URI.create(url))
@@ -53,11 +54,14 @@ public class CurrencyApiService {
                         }
 
 
-                        JsonObject rates = jsonResponse.getAsJsonObject("rates");
-                        if (rates != null && rates.has(targetCurrency)) {
-                                return rates.get(targetCurrency).getAsDouble();
+                        JsonObject conversionRates = jsonResponse.getAsJsonObject("conversion_rates");
+                        if (conversionRates != null && conversionRates.has(targetCurrency)) {
+                                return conversionRates.get(targetCurrency).getAsDouble();
                         } else {
-                                System.err.println("Moeda de destino não encontrada na resposta da API ou 'rates' ausente: " + targetCurrency);
+                                System.err.println("Moedas de destino '" + targetCurrency + "' " +
+                                        "não encontrada na resposta da API ou 'conversion_rates' " +
+                                        "ausente.");
+                                System.err.println("Resposta completa da API: " + response.body());
                                 return -1.0;
                         }
 
@@ -72,6 +76,7 @@ public class CurrencyApiService {
                         return -1.0;
                 } catch (Exception e) {
                         System.err.println("Ocorreu um erro inesperado ao processar a resposta da API: " + e.getMessage());
+                        e.printStackTrace(); // stack trace p/ depuração
                         return -1.0;
                 }
         }

@@ -5,11 +5,11 @@ import java.util.InputMismatchException;
 
 public class Main {
     private static final String apiKey = "853d5f589803807400740132";
-    private static final String apiBaseUrl = "https://v6.exchangerate-api.com/v6/latest";
+    private static final String apiBaseUrl = "https://v6.exchangerate-api.com/v6/";
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        CurrencyApiService apiService = new CurrencyApiService(apiKey, apiBaseUrl);
+        CurrencyApiService apiService = new CurrencyApiService(apiBaseUrl, apiKey );
 
         System.out.println("===Danny conversor de Moedas===");
 

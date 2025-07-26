@@ -4,7 +4,6 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 
 public class Main {
-
     private static final String apiKey = "853d5f589803807400740132";
     private static final String apiBaseUrl = "https://v6.exchangerate-api.com/v6/latest";
 
@@ -58,8 +57,7 @@ public class Main {
                         continue;
                 }
 
-                System.out.println(String.format("Digite o valor em %s para converter: ",
-                        coinOrigem));
+                System.out.println(String.format("Digite o valor em %s para converter: ", coinOrigem));
                 double valor = input.nextDouble();
 
                 double taxa = apiService.getExchangeRate(coinOrigem, coinDestino);
@@ -69,31 +67,29 @@ public class Main {
                     System.out.println(String.format("\n%.2f %s equivalem a %.2f %s (taxa: %.4f",
                             valor, coinOrigem, valorConvertido, coinDestino, taxa));
                 } else {
-                    System.out.println("Não foi possível realizar a conversão com as moedas " +
-                            "selecionadas" +
-                            " ");
+                    System.out.println("Não foi possível realizar a conversão com as moedas selecionadas");
                 }
-            catch(InputMismatchException e){
-                    System.out.println("Entrada inválida. Por favor, digite um número para a " +
-                            "opção e para o valor.");
-                    input.nextLine();
-                }
-            catch(Exception e){
-                    System.out.println("Ocorreu um erro inesperado: " + e.getMessage());
-                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, digite um número para a opção e para o valor.");
+                input.nextLine();
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                System.out.println("Ocorreu um erro inesperado: " + e.getMessage());
             }
-            input.close();
         }
-        private static void exibirMenu () {
-            String textomenu = "\n Escolha uma opção de conversão: " + "\n1. USD para BRL" + "\n2" +
-                    ". " +
-                    "BRL para USD" + "\n3. EUR para JPY" + "\n4. JPY para EUR" + "\n5. GBP para " +
-                    "USD" + "\n6. CAD para BRL" + "0. Sair" + "\nDigite o número da sua opção:  ";
+        input.close();
+    }
 
-            System.out.println(textomenu);
-        }
+    private static void exibirMenu() {
+        String textomenu = "\n Escolha uma opção de conversão: " +
+                "\n1. USD para BRL" +
+                "\n2. BRL para USD" +
+                "\n3. EUR para JPY" +
+                "\n4. JPY para EUR" +
+                "\n5. GBP para USD" +
+                "\n6. CAD para BRL" +
+                "\n0. Sair" +
+                "\nDigite o número da sua opção:  ";
 
+        System.out.println(textomenu);
     }
 }
